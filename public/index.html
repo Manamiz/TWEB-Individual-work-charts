@@ -9,8 +9,36 @@
       <title>Individual Work - Charts</title>
    </head>
    <body ng-app="app">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid container">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">TWEB - Individual work - Charts</a>
+          </div>
+
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#">Audience <span class="sr-only">(current)</span></a></li>
+              <li><a href="#">Board</a></li>
+              <li><a href="#">Debug</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
       <div ng-controller="DoughnutCtrl" class="container">
-         <h1>Index</h1>
+         <h1>Are you happy ?</h1>
+
+         <div class="btn-group btn-group-justified" role="group" aria-label="...">
+           <div class="btn-group" role="group">
+             <button type="button" class="btn btn-info" onclick="sendVote('yes');">Yes</button>
+           </div>
+           <div class="btn-group" role="group">
+             <button type="button" class="btn btn-info" onclick="sendVote('no');">No</button>
+           </div>
+           <div class="btn-group" role="group">
+             <button type="button" class="btn btn-info" onclick="sendVote('idontknow');">I don't know</button>
+           </div>
+         </div>
 
          <p> Name : <input ng-model="name" type="text"></p>
          <p> You wrote : {{name}}</p>
@@ -22,48 +50,25 @@
       <script src="js/angular/angular.min.js"></script>
       <script src="js/chart/chart.js"></script>
       <script src="js/chart/angular-chart.js"></script>
+      <script src="js/socket/socket.js"></script>
       <script src="/socket.io/socket.io.js"></script>
       <script>
          var socket = io();
 
+         function sendVote(type) {
+            socket.emit(type, {});
+         }
+         
+         socket.on('update votes', function(data) {
+            console.log('votes updates');
+         });
+
          angular.module("app", ["chart.js"])
 
          .controller("DoughnutCtrl", function($scope) {
-            $scope.labels = ["A", "B", "C"];
-            $scope.data = [300, 500, 100];
+            $scope.labels = ["Yes", "No", "I don't know"];
+            $scope.data = [0, 0, 0];
          });
-/*
-         var lineData = {
-            labels: ["January", "February", "March", "April", "May", "June"],
-            datasets: [{
-               fillColor: "rgba(172,194,132,0.4)",
-               strokeColor: "#ACC26D",
-               pointColor: "#fff",
-               pointStrokeColor: "#9DB86D",
-               data: [203, 156, 99, 251, 305, 247]
-            }]
-         };
-
-         var pieData = [{
-            value: 20,
-            color: "#878BB6"
-         }, {
-            value: 40,
-            color: "#4ACAB4"
-         }, {
-            value: 10,
-            color: "#FF8153"
-         }, {
-            value: 30,
-            color: "#FFEA88"
-         }];
-
-         var ctxLine = document.getElementById("lineChart").getContext("2d");
-         new Chart(ctxLine).Line(lineData);
-
-         var ctxPie = document.getElementById("pieChart").getContext("2d");
-         new Chart(ctxPie).Pie(pieData);
-*/
       </script>
    </body>
 </html>
