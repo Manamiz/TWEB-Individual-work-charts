@@ -4,22 +4,66 @@
       <meta charset="utf-8">
       <link rel="stylesheet" type="text/css" href="css/bootstrap-3.3.5-dist/css/bootstrap.min.css">
       <link rel="stylesheet" type="text/css" href="css/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
+      <link rel="stylesheet" type="text/css" href="css/chart/angular-chart.css">
       <link rel="stylesheet" type="text/css" href="css/style.css">
       <title>Individual Work - Charts</title>
    </head>
-   <body ng-app>
-      <div class="container">
+   <body ng-app="app">
+      <div ng-controller="DoughnutCtrl" class="container">
          <h1>Index</h1>
 
          <p> Name : <input ng-model="name" type="text"></p>
          <p> You wrote : {{name}}</p>
+
+         <canvas id="doughnut" class="chart chart-doughnut" chart-data="data" chart-labels="labels"></canvas>
       </div>
 
       <script src="js/jquery/jquery.min.js"></script>
       <script src="js/angular/angular.min.js"></script>
+      <script src="js/chart/chart.js"></script>
+      <script src="js/chart/angular-chart.js"></script>
       <script src="/socket.io/socket.io.js"></script>
       <script>
          var socket = io();
+
+         angular.module("app", ["chart.js"])
+
+         .controller("DoughnutCtrl", function($scope) {
+            $scope.labels = ["A", "B", "C"];
+            $scope.data = [300, 500, 100];
+         });
+/*
+         var lineData = {
+            labels: ["January", "February", "March", "April", "May", "June"],
+            datasets: [{
+               fillColor: "rgba(172,194,132,0.4)",
+               strokeColor: "#ACC26D",
+               pointColor: "#fff",
+               pointStrokeColor: "#9DB86D",
+               data: [203, 156, 99, 251, 305, 247]
+            }]
+         };
+
+         var pieData = [{
+            value: 20,
+            color: "#878BB6"
+         }, {
+            value: 40,
+            color: "#4ACAB4"
+         }, {
+            value: 10,
+            color: "#FF8153"
+         }, {
+            value: 30,
+            color: "#FFEA88"
+         }];
+
+         var ctxLine = document.getElementById("lineChart").getContext("2d");
+         new Chart(ctxLine).Line(lineData);
+
+         var ctxPie = document.getElementById("pieChart").getContext("2d");
+         new Chart(ctxPie).Pie(pieData);
+*/
       </script>
    </body>
 </html>
