@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <link rel="stylesheet" type="text/css" href="css/bootstrap-3.3.5-dist/css/bootstrap.min.css">
+      <link rel="stylesheet" type="text/css" href="css/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
+      <link rel="stylesheet" type="text/css" href="css/style.css">
+      <title>Individual Work - Charts</title>
+   </head>
+   <body ng-app>
+      <div class="container">
+         <h1>Index</h1>
+
+         <p> Name : <input ng-model="name" type="text"></p>
+         <p> You wrote : {{name}}</p>
+      </div>
+
+      <script src="js/jquery/jquery.min.js"></script>
+      <script src="js/angular/angular.min.js"></script>
+      <script src="/socket.io/socket.io.js"></script>
+      <script>
+         var socket = io();
+      </script>
+   </body>
+</html>
