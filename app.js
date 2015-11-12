@@ -17,17 +17,19 @@ votes['idontknow'] = 0;
 io.on('connection', function(socket) {
    console.log('A user connected');
 
+   socket.emit('initVotes', votes);
+
    socket.on('yes', function() {
       votes['yes'] += 1;
-      io.emit('update votes', votes);
+      io.emit('updateVotes', votes);
    });
    socket.on('no', function() {
       votes['no'] += 1;
-      io.emit('update votes', votes);
+      io.emit('updateVotes', votes);
    });
    socket.on('idontknow', function() {
       votes['idontknow'] += 1;
-      io.emit('update votes', votes);
+      io.emit('updateVotes', votes);
    });
 });
 

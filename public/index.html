@@ -40,9 +40,6 @@
            </div>
          </div>
 
-         <p> Name : <input ng-model="name" type="text"></p>
-         <p> You wrote : {{name}}</p>
-
          <canvas id="doughnut" class="chart chart-doughnut" chart-data="data" chart-labels="labels"></canvas>
       </div>
 
@@ -58,16 +55,21 @@
          function sendVote(type) {
             socket.emit(type, {});
          }
-         
-         socket.on('update votes', function(data) {
-            console.log('votes updates');
-         });
 
-         angular.module("app", ["chart.js"])
-
-         .controller("DoughnutCtrl", function($scope) {
-            $scope.labels = ["Yes", "No", "I don't know"];
-            $scope.data = [0, 0, 0];
+         angular.module("app", ["chart.js", "btford.socket-io"])
+         .factory('socket', function (socketFactory) {
+           return socketFactory();
+         })
+         .controller("DoughnutCtrl", function($scope, socket) {
+            socket.forward('updateVotes', $scope);
+            socket.forward('initVotes', $scope);
+            $scope.$on('socket:initVotes', function (ev, data) {
+               $scope.labels = ["Yes", "No", "I don't know"];
+               $scope.data = [data['yes'], data['no'], data['idontknow']];
+            });
+            $scope.$on('socket:updateVotes', function (ev, data) {
+               $scope.data = [data['yes'], data['no'], data['idontknow']];
+            });
          });
       </script>
    </body>
