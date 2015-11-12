@@ -10,9 +10,7 @@ app.get('/', function(req, res) {
 });
 
 var votes = {};
-votes['yes'] = 0;
-votes['no'] = 0;
-votes['idontknow'] = 0;
+resetVotes();
 
 io.on('connection', function(socket) {
    console.log('A user connected');
@@ -31,9 +29,19 @@ io.on('connection', function(socket) {
       votes['idontknow'] += 1;
       io.emit('updateVotes', votes);
    });
+
+   socket.on('reset', function() {
+      resetVotes();
+      io.emit('updateVotes', votes);
+   });
 });
 
 
+function resetVotes() {
+   votes['yes'] = 0;
+   votes['no'] = 0;
+   votes['idontknow'] = 0;
+}
 
 http.listen(3000, function() {
    console.log('Listening on *:3000');
